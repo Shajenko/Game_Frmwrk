@@ -1,0 +1,12 @@
+MenuScreen
+
+Change to be a flexible menu, created by other screens
+
+Possible objects
+	Label - string and font
+	Text box - string, font, size
+	Button - string, font - callback function? - done
+	Slider - string, font, range - in progress
+	Drop down box - string of options, separated by \n, font
+
+First, switch over so that textures and rendering are done in OpenGL, then add CEGUI to project

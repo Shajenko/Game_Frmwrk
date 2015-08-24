@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{e47ce820-bbe8-4c89-a428-e44f31584fb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\OpenGL">
+      <UniqueIdentifier>{847a74e8-7533-4f63-8b43-7e6e20840dce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{efb13add-c4b0-4499-966b-a1412e4cda62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\OpenGL">
+      <UniqueIdentifier>{181b2003-3ef7-4fa9-9953-bfe9390febe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{bd95a6e3-a1f3-4707-b8f4-ff5819a4f2a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{fea29824-11a1-408c-a128-962a10f601b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{2628861e-01ed-4962-bec5-f7b0eb0b239d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{cb2836b6-81cb-476e-a651-702c851e2a9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\OpenGL\Freetype-GL">
+      <UniqueIdentifier>{5f898e5f-cc88-4609-b10f-b39eade48fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\OpenGL\Freetype-GL">
+      <UniqueIdentifier>{297a582f-9bc9-4f45-87bb-c82c05ca0675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Screens">
+      <UniqueIdentifier>{44febef3-6962-4160-95f0-34e3bd58ff82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Screens">
+      <UniqueIdentifier>{bf786334-cb2f-4c4b-ab74-7c37eb995cce}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Initialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\math3d.h">
+      <Filter>Header Files\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\obj_loader.h">
+      <Filter>Header Files\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\shader.h">
+      <Filter>Header Files\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\debugTimer.h">
+      <Filter>Header Files\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\camera.h">
+      <Filter>Header Files\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\ScreenManager.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\util.h">
+      <Filter>Header Files\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\stb_image.h">
+      <Filter>Header Files\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Input\InputManager.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\freetype-gl\opengl.h">
+      <Filter>Header Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\freetype-gl\platform.h">
+      <Filter>Header Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\freetype-gl\texture-atlas.h">
+      <Filter>Header Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\freetype-gl\texture-font.h">
+      <Filter>Header Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\freetype-gl\vec234.h">
+      <Filter>Header Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\freetype-gl\vector.h">
+      <Filter>Header Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\freetype-gl\vertex-attribute.h">
+      <Filter>Header Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\freetype-gl\vertex-buffer.h">
+      <Filter>Header Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\RenderEngine.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\Renderable.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\transform.h">
+      <Filter>Header Files\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\OpenGL\texture.h">
+      <Filter>Header Files\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\Screens\BaseScreen.h">
+      <Filter>Header Files\Graphics\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\Screens\TitleScreen.h">
+      <Filter>Header Files\Graphics\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\Screens\DebugScreen.h">
+      <Filter>Header Files\Graphics\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\Font.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Input\GUIHelper.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\BatchRenderEngine.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gfx\Screens\TestScreen.h">
+      <Filter>Header Files\Graphics\Screens</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Initialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SDLTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\OpenGL\obj_loader.cpp">
+      <Filter>Source Files\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\OpenGL\shader.cpp">
+      <Filter>Source Files\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\OpenGL\stb_image.c">
+      <Filter>Source Files\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\ScreenManager.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Input\InputManager.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\OpenGL\freetype-gl\platform.c">
+      <Filter>Source Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\OpenGL\freetype-gl\texture-atlas.c">
+      <Filter>Source Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\OpenGL\freetype-gl\texture-font.c">
+      <Filter>Source Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\OpenGL\freetype-gl\vector.c">
+      <Filter>Source Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\OpenGL\freetype-gl\vertex-attribute.c">
+      <Filter>Source Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\OpenGL\freetype-gl\vertex-buffer.c">
+      <Filter>Source Files\Graphics\OpenGL\Freetype-GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\RenderEngine.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\Renderable.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\OpenGL\texture.cpp">
+      <Filter>Source Files\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\Screens\BaseScreen.cpp">
+      <Filter>Source Files\Graphics\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\Screens\TitleScreen.cpp">
+      <Filter>Source Files\Graphics\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\Screens\DebugScreen.cpp">
+      <Filter>Source Files\Graphics\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\Font.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\BatchRenderEngine.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gfx\Screens\TestScreen.cpp">
+      <Filter>Source Files\Graphics\Screens</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\basicShader.fs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\basicShader.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
