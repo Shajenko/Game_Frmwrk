@@ -115,8 +115,6 @@ void Texture::loadFromData32(unsigned char * data, int width, int height)
 void Texture::loadFromID(GLuint ID)
 {
 	m_texture = ID;
-
-
 }
 
 

@@ -7,18 +7,17 @@ DebugScreen::DebugScreen(unsigned int x, unsigned int y, unsigned int w, unsigne
     _screens = "";
     _focusScreen = "";
 
-    _fps = 0;
-    _fpsCounter = 0;
-    _fpsText = "FPS: 0";
-    _fpsTimer = 0.0;
+    _dfps = 0;
+	_ufps = 0;
+	_ticks = 0;
+    _dfpsText = "Draw FPS: 0";
+	_ufpsText = "Update FPS: 0";
+	_testText = "ABC";
+	_letter = 'A';
+
 
     _grabFocus = false;
     _state = HIDDEN;
-
-
-    _lastTime = SDL_GetTicks();
-
-//    _background = _globals->getTexture("Black Screen 600 450");
 
 	_alpha = 0.5f;  // 0 = transparent, 1 = opaque
 
@@ -26,9 +25,9 @@ DebugScreen::DebugScreen(unsigned int x, unsigned int y, unsigned int w, unsigne
 
 	_bgRect = glm::vec4(x * 1.0f + 20.0f, y * 1.0f + 20.0f, w * 1.0f - 20.0f, h * 1.0f - 20.0f);
 
-	_font = new Font(20, "./res/arial.ttf");
+	_font = new Font(18, "./res/arial.ttf");
 
-    _updateTxt = true;
+	_tex = new Texture(_font->getAtlas()->id);
 }
 
 DebugScreen::~DebugScreen()
@@ -50,41 +49,21 @@ void DebugScreen::handleInput(InputManager * inputManager)
 
 void DebugScreen::update()
 {
-/*    int txtWidth = 0, x;
-    int txtHeight = 0, y;
+	_tex->loadFromID(_font->getAtlas()->id);
 
-//    TTF_SizeText(_font, _screens.c_str(), &x, &y);
+	// Increment animation time
+	_ticks++;
 
-    if(x > txtWidth)
-        txtWidth = x;
-
-//    TTF_SizeText(_font, _focusScreen.c_str(), &x, &y);
-
-    if(x > txtWidth)
-        txtWidth = x;
-
-    TTF_SizeText(_font, _fpsText.c_str(), &x, &y);
-
-    txtHeight = y * 3;*/
-
-    _fpsTimer = (SDL_GetTicks() - _lastTime) / 1000.0f;
-
-    if(_fpsTimer < 1.0)
-    {
-        _fpsCounter++;
-    }
-    else
-    {
-		if (_fps != _fpsCounter)
-		{
-			_updateTxt = true;
-			_fpsText = "FPS: " + std::to_string(_fps);
-		}
-        _fps = _fpsCounter;
-        _fpsCounter = 1;
-        _lastTime = SDL_GetTicks();
-        _fpsTimer = 0.0;
-    }
+	if (_ticks % 30 == 0)
+	{
+		_letter++;
+		if (_letter > 'z')
+			_letter = 'A';
+		_ticks = 0;
+		if (_testText.size() > 10)
+			_testText = "jjj";
+		_testText += _letter;
+	}
 }
 
 void DebugScreen::draw(RenderEngine * rEngine)
@@ -92,11 +71,24 @@ void DebugScreen::draw(RenderEngine * rEngine)
 	if (_state == ACTIVE)
 	{
 		rEngine->drawSprite(NULL, _bgRect, glm::vec4(0.5f, 0.5f, 0.5f, _alpha));
-		rEngine->drawString(_fpsText, glm::vec3(_bgRect.x + 30.0f, _bgRect.y + 40.0f, 1.0f), _font, _textColor);
+		rEngine->drawSprite(_tex, glm::vec4(40.0f, 400.0f, 550.0f, 500.0f));
+		rEngine->drawString(_dfpsText, glm::vec3(_bgRect.x + 30.0f, _bgRect.y + 40.0f, 1.0f), _font, _textColor);
+		rEngine->drawString(_ufpsText, glm::vec3(_bgRect.x + 30.0f, _bgRect.y + 80.0f, 1.0f), _font, _textColor);
+		rEngine->drawString(_testText, glm::vec3(_bgRect.x + 30.0f, _bgRect.y + 120.0f, 1.0f), _font, _textColor);
 	}
 }
 
 void DebugScreen::setChange()
 {
 //    _updateTxt = true;
+}
+
+void DebugScreen::updateFPS(GLuint dfps, GLuint ufps)
+{ 
+	_dfps = dfps; 
+	_ufps = ufps; 
+	_dfpsText = "Draw FPS: " + std::to_string(_dfps);
+	_ufpsText = "Update FPS: " + std::to_string(_ufps);
+	//std::cout << _dfpsText << std::endl << _ufpsText << std::endl;
+
 }

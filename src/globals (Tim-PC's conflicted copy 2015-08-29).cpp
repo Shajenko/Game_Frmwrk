@@ -2,7 +2,7 @@
 
 Globals::Globals()
 {
-	srand((unsigned int)time(NULL));
+	srand(time(NULL));
 }
 
 Globals::~Globals()

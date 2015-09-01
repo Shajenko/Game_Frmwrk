@@ -49,9 +49,6 @@ class ScreenManager
 	private:
 		list<BaseScreen *> _screens;
 		list<BaseScreen *> _newScreens;
-		list<BaseScreen *> _keepList;
-		list<BaseScreen *>::iterator _it;
-		list<BaseScreen *>::reverse_iterator _rit;
 
 		RenderEngine * _renderEngine = nullptr;
 
@@ -60,15 +57,12 @@ class ScreenManager
 
 		bool _fullscreen, _mouseFocus, _keyboardFocus, _visible, _sdl2;
 
-		Uint32 _drawFrameStartTime, _updateFrameStartTime;
-		Uint32 _drawSec, _updateSec; // Start of the current second
-		Uint32 _currTime;
-
-		unsigned int _dframeCount, _uframeCount;
+		Uint32 _frameStartTime;
 
         Globals * _globals;
 
-		unsigned int _strLength;
+        float _counter;
+		int _strLength;
 
 		Font * _font;
 };

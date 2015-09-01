@@ -54,48 +54,26 @@ BatchRenderEngine::~BatchRenderEngine()
 
 void BatchRenderEngine::startBatch()
 {
-	int i;
 	_shader->Bind();
 	_shader->Update(*_transform);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _VBO);
 
+	_vertices = (Vertex*)glMapBufferRange(GL_ARRAY_BUFFER, 0, MAX_VERTS*sizeof(Vertex), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
 
-	// Error - second time this is mapped, _vertices comes back with NULL pointer
-	_vertices = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 	if (_vertices == NULL)
 		std::cout << "Error - failure to map _vertices\n";
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indBuffer);
-	_indices = (GLuint *)glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+	_indices = (GLuint *)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, MAX_INDICES * sizeof(GLuint), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+
 	if (_indices == NULL)
 		std::cout << "Error - failure to map _indices\n";
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	// Reset indices
-	for (int i = 0; i < MAX_INDICES; i++)
-	{
-		_indices[i] = 0;
-	}
-
-	// reset textures
-	for (int i = 0; i < MAX_TEXTURES; i++)
-	{
-		_textures[i] = 0.0f;
-	}
-
-	// reset vertices
-	for (i = 0; i<MAX_VERTS; i++)
-	{
-		_vertices[i].pos = glm::vec3(0.0f);
-		_vertices[i].texCoord = glm::vec2(0.0f);
-		_vertices[i].normal = glm::vec3(0.0f);
-		_vertices[i].color = glm::vec4(0.0f);
-		_vertices[i].tid = 0.0f;
-	}
 
 	_currVerts = 0;
 	_currInds = 0;
@@ -115,7 +93,7 @@ void BatchRenderEngine::enqueue(Renderable r, GLuint * indices)
 	float ts = 0.0f;
 
 	vertNum = r.getVertices().size();
-	indNum = vertNum / 4 * 6;  // Assumes all input renderables are sprites - fix
+	indNum = (vertNum / 4) * 6;  // Assumes all input renderables are sprites - fix
 
 
 	if (vertNum + _currVerts > MAX_VERTS || indNum + _currInds > MAX_INDICES || _currTextures >= MAX_TEXTURES) // we've reached our limit, draw everything and restart

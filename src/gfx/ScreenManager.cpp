@@ -7,8 +7,8 @@
 
 #include "./OpenGL/freetype-gl/texture-font.h"
 
-
-
+const Uint32 upWaitTime = (Uint32)(1000.0f / MAX_UPDATE_FRAMES);
+const Uint32 drWaitTime = (Uint32)(1000.0f / MAX_DRAW_FRAMES);
 
 ScreenManager::ScreenManager(Globals * glbls, int width, int height)
 {
@@ -42,7 +42,9 @@ ScreenManager::ScreenManager(Globals * glbls, int width, int height)
 	delayTime = SDL_GetTicks() - lastTime;
 	std::cout << delayTime << " ticks\n";
 
-    _frameStartTime = SDL_GetTicks();
+    _drawFrameStartTime = _drawSec = SDL_GetTicks();
+	_updateFrameStartTime = _updateSec = SDL_GetTicks();
+	_currTime = SDL_GetTicks();
 
 	// Add textures
 
@@ -53,8 +55,6 @@ ScreenManager::ScreenManager(Globals * glbls, int width, int height)
     _keyboardFocus = false;
     _mouseFocus = false;
 
-    _counter = 0;
-
 	_screens.clear();
 
 }
@@ -63,17 +63,23 @@ ScreenManager::~ScreenManager()
 {
 	delete _renderEngine;
 	delete _inputManager;
-
-
 }
 
 
 
 bool ScreenManager::update()
 {
-	list<BaseScreen *> keepList;
-	list<BaseScreen *>::iterator it;
-	list<BaseScreen *>::reverse_iterator rit;
+	Uint32 elapsedTime;
+	Sint32 delayTime = 0;
+
+	// Delay to maintain frame rate
+	_currTime = SDL_GetTicks();
+	elapsedTime = (_currTime - _updateFrameStartTime);
+	delayTime = upWaitTime - elapsedTime;
+	if (delayTime > 0)
+		return false;
+	_uframeCount++;
+	
 
 	//BaseScreen * tmpScreen;
 
@@ -88,18 +94,18 @@ bool ScreenManager::update()
 	// Screen cleanup
 	// Find all dead screens
 
-    for(it=_screens.begin();it != _screens.end(); ++it)
+    for(_it=_screens.begin();_it != _screens.end(); ++_it)
     {
-		if ((*it) != NULL){
-			if ((*it)->getState() != SHUTDOWN && (*it)->getName() != "Debug Screen")
+		if ((*_it) != NULL){
+			if ((*_it)->getState() != SHUTDOWN && (*_it)->getName() != "Debug Screen")
 			{
-				scrns += (*it)->getName() + ", ";
-				keepList.push_back((*it));
-				(*it)->setFocus(false);
+				scrns += (*_it)->getName() + ", ";
+				_keepList.push_back((*_it));
+				(*_it)->setFocus(false);
 			}
-			else if ((*it)->getName() != "Debug Screen")
+			else if ((*_it)->getName() != "Debug Screen")
 			{
-				delete *it;
+				delete *_it;
 				_debugScrn->setChange();
 			}
 		}
@@ -112,26 +118,26 @@ bool ScreenManager::update()
 
 	if(_newScreens.size() > 0)
         _debugScrn->setChange();
-	for(it=_newScreens.begin();it != _newScreens.end(); ++it)
+	for(_it=_newScreens.begin();_it != _newScreens.end(); ++_it)
 	{
 		
-		(*it)->setFocus(false);
-		if((*it)->getName() != "Debug Screen")
+		(*_it)->setFocus(false);
+		if((*_it)->getName() != "Debug Screen")
         {
-			keepList.push_back((*it));
-			scrns += (*it)->getName() + ", ";
+			_keepList.push_back((*_it));
+			scrns += (*_it)->getName() + ", ";
         }
 	}
 
 	_newScreens.clear();
 
 	// Reset debug screen to top of list
-    keepList.push_back(_debugScrn);
+    _keepList.push_back(_debugScrn);
       scrns += _debugScrn->getName();
 
 
-    _screens = keepList;
-    keepList.clear();
+    _screens = _keepList;
+    _keepList.clear();
 
 	_debugScrn->SetScreens(scrns);
 
@@ -144,73 +150,79 @@ bool ScreenManager::update()
     if(_visible || _mouseFocus || _keyboardFocus)
         _debugScrn->setChange();
 
+	if (_currTime - _updateSec >= 1000) // end of second, update fps
+	{
+			_debugScrn->updateFPS(_dframeCount, _uframeCount);
+			std::cout << "FPS Update: Draw FPS: " << _dframeCount << " Update FPS: " << _uframeCount << std::endl;
+			_dframeCount = 0;
+			_uframeCount = 0;
+			_updateSec = _currTime;
+			_drawSec = _currTime;
+	}
+
 	// Check screen focus
 	if (_screens.size() > 0)
 	{
-//	    _debugScrn->SetFocusScreens("Focused: None");
-		for(rit=_screens.rbegin();rit != _screens.rend(); ++rit)
+		_debugScrn->SetFocusScreens("Focused: None");
+		for(_rit=_screens.rbegin();_rit != _screens.rend(); ++_rit)
 		{
-			if (*rit != NULL)
+			if (*_rit != NULL)
 			{
-				if ((*rit)->getState() == ACTIVE && (*rit)->getGrabFocus() == true)
+				if ((*_rit)->getState() == ACTIVE && (*_rit)->getGrabFocus() == true)
 				{
-					(*rit)->setFocus(true);
-					_debugScrn->SetFocusScreens("Focused: " + (*rit)->getName());
+					(*_rit)->setFocus(true);
+					_debugScrn->SetFocusScreens("Focused: " + (*_rit)->getName());
 					break;
 				}
 			}
 			
 		}
-		for(it=_screens.begin();it != _screens.end(); ++it)
+		for(_it=_screens.begin();_it != _screens.end(); ++_it)
 		{
-			if ((*it) != NULL)
+			if ((*_it) != NULL)
 			{
 				if (_mouseFocus || _keyboardFocus)  // App has focus
 				{
-					(*it)->handleInput(_inputManager);
+					(*_it)->handleInput(_inputManager);
 				}
-				(*it)->update();
+				(*_it)->update();
 			}
 		}
 	}
 
-	_counter += 0.01f;
+	_updateFrameStartTime = SDL_GetTicks();
 
 	return false;
 }
 
 void ScreenManager::draw()
 {
-	//	list<BaseScreen *>::iterator it;
-
-	list<BaseScreen *>::iterator it;
-
 	Uint32 elapsedTime;
-	Uint32 waitTime = (Uint32)(1000.0f / MAX_FRAMES);
 	Sint32 delayTime = 0;
 
-	for (it = _screens.begin(); it != _screens.end(); ++it)
+	// Delay to maintain frame rate
+	_currTime = SDL_GetTicks();
+	elapsedTime = (_currTime - _drawFrameStartTime);
+	delayTime = drWaitTime - elapsedTime;
+	if (delayTime > 0)
 	{
-		if ((*it) != NULL)
-			(*it)->draw(_renderEngine);
+		//SDL_Delay(1);
+		return;
+	}
+
+	_dframeCount++;
+
+	for (_it = _screens.begin(); _it != _screens.end(); ++_it)
+	{
+		if ((*_it) != NULL)
+			(*_it)->draw(_renderEngine);
 	}
 
 	//Update screen
 
 	_renderEngine->render();
 
-	// Delay to maintain frame rate
-	elapsedTime = (SDL_GetTicks() - _frameStartTime);
-	delayTime = waitTime - elapsedTime;
-
-	if (delayTime > 0)
-	{
-		elapsedTime += delayTime;
-		SDL_Delay(delayTime);
-		//std::cout << "Delaytime : " << delayTime << std::endl;
-	}
-	_frameStartTime = SDL_GetTicks();
-
+	_drawFrameStartTime = SDL_GetTicks();
 }
 
 

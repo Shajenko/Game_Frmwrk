@@ -24,7 +24,7 @@ TitleScreen::TitleScreen(unsigned int x, unsigned int y, unsigned int w, unsigne
 	_soundEffVol = nullptr;
 
 	_backgrndTex = new Texture("./gfx/GradientBrown640480.jpg", GL_RGBA);
-	_testTex = new Texture("./gfx/GradientGray640480.jpg", GL_RGBA);
+	_testTex = new Texture(_largeFont->getAtlas()->id);
 
 	std::cout << "Title Screen constructor complete\n";
 }
@@ -38,13 +38,7 @@ TitleScreen::~TitleScreen()
 
 void TitleScreen::handleInput(InputManager * inputM)
 {
-	// Menu input
-	if(_mState == MAIN_MENU);
-//        _mMenu->handleInput(inputM);
-    else if(_mState == OPTIONS_MENU);
-//        _optionsMenu->handleInput(inputM);
-    else if(_mState == VOLUME_MENU);
-//        _volumeMenu->handleInput(inputM);
+	// Menu input is taken care of by CEGUI
 
 }
 
@@ -62,34 +56,18 @@ void TitleScreen::update()
 		_b = (rand() % 160 + 40) / 256.0f;
 		_ticks = 1;
 	}
-
-    if(_mState == MAIN_MENU)
-    {
-    }
-    else if(_mState == OPTIONS_MENU)
-    {
-
-    }
-	else if (_mState == VOLUME_MENU)
-	{
-
-	}
-	else // something went wrong
-	{
-		_mState == MAIN_MENU;
-		activateMenu(_mainMenu);
-	}
+	_testTex->loadFromID(_largeFont->getAtlas()->id);
 
 }
 
 void TitleScreen::draw(RenderEngine * rEngine)
 {
-	rEngine->drawSprite(_testTex, glm::vec4(30.0f, 50.0f, 100.0f, 500.0f));
 	rEngine->drawSprite(_backgrndTex, glm::vec4(_x * 1.0f, _y * 1.0f, _w * 1.0f, _h * 1.0f));
-	
+	rEngine->drawSprite(_testTex, glm::vec4(10.0f, 140.0f, 450.0f, 500.0f));
 
 	rEngine->drawString("Welcome to", glm::vec3(20.0f, 40.0f, 0.0f), _smallFont, glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 	rEngine->drawString("PONG", glm::vec3(60.0f, 100.0f, 0.0f), _largeFont, glm::vec4(_r, _g, _b, 1.0f));
+
 
 	return;
 
@@ -106,7 +84,7 @@ void TitleScreen::createGUIElements()
 {
 	using namespace CEGUI;
 
-	int i;
+	unsigned int i;
 	size_t childCount;
 
 

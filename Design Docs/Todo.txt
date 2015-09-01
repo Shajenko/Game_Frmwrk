@@ -1,12 +1,29 @@
-MenuScreen
 
-Change to be a flexible menu, created by other screens
+Create loading screen for engine initialization
 
-Possible objects
-	Label - string and font
-	Text box - string, font, size
-	Button - string, font - callback function? - done
-	Slider - string, font, range - in progress
-	Drop down box - string of options, separated by \n, font
+Implement Spritesheet object, inheriting from Texture object.  XML layout files?  CEED maybe
 
-First, switch over so that textures and rendering are done in OpenGL, then add CEGUI to project
+Go over InputManager
+
+Do AudioManager class
+
+
+
+Completed
+------------------------------
+
+Switch to OpenGL - done
+Install CEGUI - done
+
+Switch DebugScreen to use CEGUI elements
+	Console screen - similar to this: http://cegui.org.uk/wiki/CEGUI_In_Practice_-_Using_.layout_files
+
+Change DebugScreen to use fps input from ScreenManager - done
+
+Optimize main loops for speed
+	ScreenManager::update - crucial - done for now
+	RenderEngine/BatchRenderEngine::enqueue - done for now
+	RenderEngine/BatchRenderEngine::drawSprite - done for now
+	RenderEngine/BatchRenderEngine::drawString - done for now
+
+Figure out problem with writing text - Done: strange error with floats added to ints, causing huge negative number

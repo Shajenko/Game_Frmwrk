@@ -34,9 +34,14 @@ RenderEngine::RenderEngine(int width, int height)
 	lastTime = SDL_GetTicks();
 
 	//Use Vsync 
-	if (SDL_GL_SetSwapInterval(1) < 0)
+	/*if (SDL_GL_SetSwapInterval(1) < 0)
 	{
 		std::cout << "Warning: Unable to set VSync! SDL Error: " << SDL_GetError() << std::endl;
+	}*/
+
+	if (SDL_GL_SetSwapInterval(0) < 0)
+	{
+		std::cout << "Warning: Unable to disable VSync! SDL Error: " << SDL_GetError() << std::endl;
 	}
 
 	CEGUIInit();
@@ -66,6 +71,8 @@ RenderEngine::RenderEngine(int width, int height)
 
 	_transform->SetOrtho(glm::ortho(0.0f, (float)width, (float)height, 0.0f, 1.0f, -1.0f));
 	_shader->Update(*_transform);
+
+	_r = new Renderable();
 }
 
 void RenderEngine::CEGUIInit()
@@ -251,8 +258,6 @@ void RenderEngine::enqueue(Renderable r, GLuint * indices)
 	GLuint vertexArrayBuffers[NUM_BUFFERS];
 
 
-
-
 	// Currently assumes the renderable is a sprite, four vertices, six indices needed
 	unsigned int vertNum;
 	unsigned int indNum;
@@ -324,7 +329,7 @@ void RenderEngine::enqueue(Renderable r, GLuint * indices)
 	if (tid[0] > 0) // texture isn't NULL
 	{
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, tid[0]);
+		glBindTexture(GL_TEXTURE_2D, (GLuint)tid[0]);
 	}
 
 	// Draw call
@@ -352,12 +357,19 @@ void RenderEngine::drawString(std::string text, const glm::vec3 &position, Font 
 	std::vector<float> tid;
 	GLuint *indices;
 
+	wchar_t wLetter, wLastLetter;
+
+	// Convert string to wchar_t array
+	mbtowc(NULL, NULL, 0);
+	
+
 	GLuint scale = 2;
 
 //	GLuint vertexArrayObject;
 //	GLuint vertexArrayBuffers[NUM_BUFFERS];
 
 	ftgl::texture_font_t * font_tex = font->getFont();
+	texture_glyph_t *glyph;
 
 	int strLength = strlen(text.c_str());
 
@@ -379,21 +391,28 @@ void RenderEngine::drawString(std::string text, const glm::vec3 &position, Font 
 
 	Texture * tex = new Texture(font->getAtlas()->id);
 
+	
+
 	for (int i = 0; i < strLength; ++i)
 	{
-		texture_glyph_t *glyph = ftgl::texture_font_get_glyph(font_tex, text[i]);
+		mbtowc(&wLetter, &text[i], 1);
+		glyph = ftgl::texture_font_get_glyph(font_tex, wLetter); 
 		if (glyph != NULL)
 		{
+			
 			int kerning = 0;
 			if (i > 0)
 			{
-				kerning = ftgl::texture_glyph_get_kerning(glyph, text[i - 1]);
+				kerning = (int)ftgl::texture_glyph_get_kerning(glyph, wLastLetter);
 			}
+			wLastLetter = wLetter;
 			pen->x += (kerning) * scale;
-			int x0 = (int)(pen->x + (glyph->offset_x) * scale);
-			int y0 = (int)(pen->y - (glyph->offset_y) * scale);
-			int x1 = (int)(x0 + (glyph->width) * scale);
-			int y1 = (int)(y0 + (glyph->height) * scale);
+			int x0 = ((int)pen->x + (glyph->offset_x) * scale); // Sometimes offset_x is less than zero, screws up this calculation
+			if (x0 < 0)
+				x0 = (int)pen->x;
+			int y0 = ((int)pen->y - (glyph->offset_y) * scale);
+			int x1 = (x0 + (glyph->width) * scale);
+			int y1 = (y0 + (glyph->height) * scale);
 			float s0 = glyph->s0;
 			float t0 = glyph->t0;
 			float s1 = glyph->s1;
@@ -406,26 +425,28 @@ void RenderEngine::drawString(std::string text, const glm::vec3 &position, Font 
 			indices[(i * 6) + 4] = (i * 4) + 3;
 			indices[(i * 6) + 5] = (i * 4) + 0;
 
-			verts.push_back(new Vertex(glm::vec3(x0, y0, 0), glm::vec2(s0, t0), glm::vec3(0.0f, 0.0f, 0.0f), color, tex->getTID()));
-			verts.push_back(new Vertex(glm::vec3(x0, y1, 0), glm::vec2(s0, t1), glm::vec3(0.0f, 0.0f, 0.0f), color, tex->getTID()));
-			verts.push_back(new Vertex(glm::vec3(x1, y1, 0), glm::vec2(s1, t1), glm::vec3(0.0f, 0.0f, 0.0f), color, tex->getTID()));
-			verts.push_back(new Vertex(glm::vec3(x1, y0, 0), glm::vec2(s1, t0), glm::vec3(0.0f, 0.0f, 0.0f), color, tex->getTID()));
+			verts.push_back(new Vertex(glm::vec3(x0, y0, 0), glm::vec2(s0, t0), glm::vec3(0.0f, 0.0f, 0.0f), color, (float)tex->getTID()));
+			verts.push_back(new Vertex(glm::vec3(x0, y1, 0), glm::vec2(s0, t1), glm::vec3(0.0f, 0.0f, 0.0f), color, (float)tex->getTID()));
+			verts.push_back(new Vertex(glm::vec3(x1, y1, 0), glm::vec2(s1, t1), glm::vec3(0.0f, 0.0f, 0.0f), color, (float)tex->getTID()));
+			verts.push_back(new Vertex(glm::vec3(x1, y0, 0), glm::vec2(s1, t0), glm::vec3(0.0f, 0.0f, 0.0f), color, (float)tex->getTID()));
 			pen->x += (glyph->advance_x) * scale;
 
 		}
 		else
 		{
 			// load the glyph into the atlas, try again
+			texture_font_load_glyphs(font_tex, (wchar_t *)&text[i]);
+			std::cout << "Glyph not found: " << text[i];
+			i--;
 		}
 	}
 
-	Renderable * r = new Renderable(verts, tex);
-	enqueue(*r, indices);
+	_r->copyRenderable(verts, tex);
+	enqueue(*_r, indices);
 }
 
 void RenderEngine::drawSprite(Texture * tex, glm::vec4 &position, glm::vec4 &color)
 {
-	Renderable *r;
 	std::vector<Vertex *> verts;
 
 	float tid;
@@ -443,17 +464,16 @@ void RenderEngine::drawSprite(Texture * tex, glm::vec4 &position, glm::vec4 &col
 	if (tex == NULL)
 		tid = -1.0f;
 	else
-		tid = tex->getTID();
+		tid = (float)tex->getTID();
 
 	verts.push_back(new Vertex(glm::vec3(position.x, position.y, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), color, tid));
 	verts.push_back(new Vertex(glm::vec3(position.x + position.z, position.y, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), color, tid));
 	verts.push_back(new Vertex(glm::vec3(position.x + position.z, position.y + position.w, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), color, tid));
 	verts.push_back(new Vertex(glm::vec3(position.x, position.y + position.w, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), color, tid));
 
-	r = new Renderable(verts, tex);
+	_r->copyRenderable(verts, tex);
 
-	enqueue(*r, indices);
-	delete r;
+	enqueue(*_r, indices);
 }
 
 void RenderEngine::addCEGUIElement(CEGUI::Window * element)

@@ -8,20 +8,12 @@ class Transform
 {
     public:
         Transform(const glm::vec3& pos = glm::vec3(), const glm::vec3& rot = glm::vec3(), const glm::vec3& scale = glm::vec3(1.0f, 1.0f, 1.0f)) :
-        m_pos(pos), m_rot(rot), m_scale(scale)
+			m_pos(pos), m_rot(rot), m_scale(scale)
         { }
 
         inline glm::mat4 GetModel() const
-        {
-            glm::mat4 posMatrix = glm::translate(m_pos);
-            glm::mat4 rotXMatrix = glm::rotate(m_rot.x, glm::vec3(1,0,0));
-            glm::mat4 rotYMatrix = glm::rotate(m_rot.y, glm::vec3(0,1,0));
-            glm::mat4 rotZMatrix = glm::rotate(m_rot.z, glm::vec3(0,0,1));
-            glm::mat4 scaleMatrix = glm::scale(m_scale);
-
-            glm::mat4 rotMatrix = rotZMatrix * rotYMatrix * rotXMatrix;
-
-            return posMatrix * rotMatrix * scaleMatrix;
+		{
+				return m_lastMat;
         }
 
         inline glm::mat4 GetProjection() const
@@ -34,10 +26,23 @@ class Transform
         inline glm::vec3& GetScale() {return m_scale;}
         inline glm::mat4& GetOrtho() {return m_orthoMat;}
 
-        inline void SetPos(const glm::vec3& pos) {m_pos = pos;}
-        inline void SetRot(const glm::vec3& rot) {m_rot = rot;}
-        inline void SetScale(const glm::vec3& scale) {m_scale = scale;}
-        inline void SetOrtho(const glm::mat4& ortho) {m_orthoMat = ortho;}
+		inline void SetPos(const glm::vec3& pos) { m_pos = pos; updateModel(); }
+		inline void SetRot(const glm::vec3& rot) { m_rot = rot; updateModel(); }
+		inline void SetScale(const glm::vec3& scale) { m_scale = scale; updateModel(); }
+		inline void SetOrtho(const glm::mat4& ortho) { m_orthoMat = ortho; updateModel(); }
+
+		void updateModel() 
+		{
+			glm::mat4 posMatrix = glm::translate(m_pos);
+			glm::mat4 rotXMatrix = glm::rotate(m_rot.x, glm::vec3(1, 0, 0));
+			glm::mat4 rotYMatrix = glm::rotate(m_rot.y, glm::vec3(0, 1, 0));
+			glm::mat4 rotZMatrix = glm::rotate(m_rot.z, glm::vec3(0, 0, 1));
+			glm::mat4 scaleMatrix = glm::scale(m_scale);
+
+			glm::mat4 rotMatrix = rotZMatrix * rotYMatrix * rotXMatrix;
+
+			m_lastMat = posMatrix * rotMatrix * scaleMatrix;
+		}
 
         virtual ~Transform() {}
     protected:
@@ -47,6 +52,7 @@ class Transform
         glm::vec3 m_scale;
 
         glm::mat4 m_orthoMat;
+		glm::mat4 m_lastMat;
 };
 
 #endif // TRANSFORM_H

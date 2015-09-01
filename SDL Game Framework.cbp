@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SDL Game Framework" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/SDL Game Framework" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add directory="src/Screens/Menus" />
+					<Add directory="include" />
+					<Add directory="src/Graphics/Renderers" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/SDL Game Framework" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+					<Add directory="src/Screens/Menus" />
+					<Add directory="src/Graphics/Renderers" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-Wall" />
+			<Add directory="../SDL2/include" />
+			<Add directory="../SDL2/include/SDL2" />
+			<Add directory="../FreeType/include/" />
+			<Add directory="../DevIL/include" />
+			<Add directory="../FreeType/include/freetype2" />
+		</Compiler>
+		<Linker>
+			<Add option="-lmingw32 -lSDL2main -lSDL2  -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lglew32 -lopengl32 -lglu32 -lfreeglut -lfreetype" />
+			<Add library="..\SDL2\lib\glew32s.lib" />
+			<Add library="..\SDL2\lib\glew32.lib" />
+			<Add directory="../SDL2/lib" />
+			<Add directory="../FreeType/lib" />
+			<Add directory="../DevIL/lib" />
+		</Linker>
+		<Unit filename="res/basicShader.fs" />
+		<Unit filename="res/basicShader.vs" />
+		<Unit filename="src/Constants.h" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/Game.h" />
+		<Unit filename="src/Globals.h" />
+		<Unit filename="src/Initialization.cpp" />
+		<Unit filename="src/Initialization.h" />
+		<Unit filename="src/Input/InputManager.cpp" />
+		<Unit filename="src/Input/InputManager.h" />
+		<Unit filename="src/SDLTest.cpp" />
+		<Unit filename="src/TFF_Utilities.cpp" />
+		<Unit filename="src/TTF_Utilities.h" />
+		<Unit filename="src/ext/freetype-gl-master/.gitattributes" />
+		<Unit filename="src/ext/freetype-gl-master/.gitignore" />
+		<Unit filename="src/ext/freetype-gl-master/.travis.yml" />
+		<Unit filename="src/ext/freetype-gl-master/CMakeLists.txt" />
+		<Unit filename="src/ext/freetype-gl-master/LICENSE" />
+		<Unit filename="src/ext/freetype-gl-master/README.md" />
+		<Unit filename="src/ext/freetype-gl-master/TODO" />
+		<Unit filename="src/gfx/OpenGL/LOpenGL.h" />
+		<Unit filename="src/gfx/OpenGL/RectMesh.cpp" />
+		<Unit filename="src/gfx/OpenGL/RectMesh.h" />
+		<Unit filename="src/gfx/OpenGL/camera.h" />
+		<Unit filename="src/gfx/OpenGL/debugTimer.h" />
+		<Unit filename="src/gfx/OpenGL/font.cpp" />
+		<Unit filename="src/gfx/OpenGL/font.h" />
+		<Unit filename="src/gfx/OpenGL/math3d.h" />
+		<Unit filename="src/gfx/OpenGL/mesh.cpp" />
+		<Unit filename="src/gfx/OpenGL/mesh.h" />
+		<Unit filename="src/gfx/OpenGL/obj_loader.cpp" />
+		<Unit filename="src/gfx/OpenGL/obj_loader.h" />
+		<Unit filename="src/gfx/OpenGL/shader.cpp" />
+		<Unit filename="src/gfx/OpenGL/shader.h" />
+		<Unit filename="src/gfx/OpenGL/stb_image.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/gfx/OpenGL/stb_image.h" />
+		<Unit filename="src/gfx/OpenGL/texture.cpp" />
+		<Unit filename="src/gfx/OpenGL/texture.h" />
+		<Unit filename="src/gfx/OpenGL/transform.h" />
+		<Unit filename="src/gfx/OpenGL/util.h" />
+		<Unit filename="src/gfx/ScreenManager.cpp" />
+		<Unit filename="src/gfx/ScreenManager.h" />
+		<Unit filename="src/gfx/Sprite.cpp" />
+		<Unit filename="src/gfx/Sprite.h" />
+		<Unit filename="src/globals.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

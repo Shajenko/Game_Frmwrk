@@ -47,8 +47,11 @@ enum VertexBufferPositions
 class Renderable
 {
 public:
+	Renderable();
 	Renderable(std::vector<Vertex *> vertices, Texture * tex);
 	virtual ~Renderable();
+
+	void copyRenderable(std::vector<Vertex *> vertices, Texture * tex);
 
 	std::vector<Vertex *> getVertices() { return _vertices; }
 	float getTid() { if (_tex != NULL) return (float)_tex->getTID(); else return 0.0f; }

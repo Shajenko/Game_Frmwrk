@@ -23,7 +23,8 @@
 const float SCREEN_WIDTH = 800.0f;
 const float SCREEN_HEIGHT = 600.0f;
 const int SCREEN_BPP = 32;
-const int MAX_FRAMES = 60;
+const int MAX_UPDATE_FRAMES = 60;
+const int MAX_DRAW_FRAMES = 120;
 
 enum ScreenState { ACTIVE, HIDDEN, SHUTDOWN};
 

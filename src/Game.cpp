@@ -40,14 +40,14 @@ int Game::run()
 	// Load Content
 
 	// Add default screens
-	_scrManager = new ScreenManager(_globals, SCREEN_WIDTH, SCREEN_HEIGHT);
+	_scrManager = new ScreenManager(_globals, (int)SCREEN_WIDTH, (int)SCREEN_HEIGHT);
 	cout << "Screenmanager created - ";
 
 	delayTime = SDL_GetTicks() - lastTime;
 	std::cout << delayTime << " ticks\n";
 	lastTime = SDL_GetTicks();
 
-	_scrManager->addScreen(new TitleScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
+	_scrManager->addScreen(new TitleScreen(0, 0, (int)SCREEN_WIDTH, (int)SCREEN_HEIGHT));
 	cout << "Title Screen added - ";
 
 	//_scrManager->addScreen(new TestScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));

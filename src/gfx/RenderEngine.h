@@ -25,16 +25,16 @@ public:
 	RenderEngine(int width, int height);
 	virtual ~RenderEngine();
 
-	// Items to draw
+	// Used to draw a string of characters on screen
 	virtual void drawString(std::string text, const glm::vec3 &position, Font * font, const glm::vec4 &color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	virtual void drawSprite(Texture * tex, glm::vec4 &position, glm::vec4 &color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	// Used to draw a sprite with a given texture (NULL for no texture) on screen
+	virtual void drawSprite(Texture * tex, glm::vec4 &position, glm::vec4 &color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));	
 	
-	//virtual void drawSprite(Spritesheet * spritesheet, glm::vec4 &position, glm::vec4 &color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	virtual void addCEGUIElement(CEGUI::Window * element);
 	virtual CEGUI::Window * createCEGUIElement(CEGUI::String elementType, const glm::vec4 &destRectPerc, const glm::vec4 &destRectPix, CEGUI::String name, CEGUI::String text = "");
 	virtual CEGUI::Window * createButton(std::string buttonName, const glm::vec4 &destRectPerc, const glm::vec4 &destRectPix, std::string buttonText);
-	//virtual void drawSlider()
 
+	// Returns the current GUI context in CEGUI
 	virtual CEGUI::GUIContext * getGUIContext() { return _GUIContext; }
 
 	virtual void render();
@@ -67,5 +67,7 @@ protected:
 	CEGUI::Window* _CEGUIWindow = nullptr;
 	CEGUI::OpenGL3Renderer* _CEGUIrenderer = nullptr;
 	CEGUI::GUIContext * _GUIContext = nullptr;
+
+	Renderable * _r;
 };
 

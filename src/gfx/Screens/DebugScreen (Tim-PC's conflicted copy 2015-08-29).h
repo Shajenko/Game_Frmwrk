@@ -13,9 +13,10 @@ class DebugScreen : public BaseScreen
 
         void handleInput(InputManager *);
         void update();
+        SDL_Surface * draw();
+        SDL_Texture * drawTex();
 		void draw(RenderEngine * rEngine);
         void setChange();
-		void updateFPS(GLuint dfps, GLuint ufps); 
 
         void SetScreens(std::string scrns) {_screens = scrns;}
         void SetFocusScreens(std::string fcscrns) {_focusScreen = fcscrns;}
@@ -25,9 +26,14 @@ class DebugScreen : public BaseScreen
         std::string _screens;
         std::string _focusScreen;
 
-        unsigned int _dfps, _ufps, _ticks;
-        std::string _dfpsText, _ufpsText, _testText;
-		char _letter;
+        int _fps;
+        int _fpsCounter;
+        std::string _fpsText;
+        double _fpsTimer;
+
+        bool _updateTxt;
+
+        Uint32 _lastTime;
 
 		glm::vec4 _bgRect;
 
@@ -35,8 +41,6 @@ class DebugScreen : public BaseScreen
         float _alpha;
 
 		Font * _font;
-
-		Texture * _tex;
 };
 
 #endif // DEBUGSCREEN_H
